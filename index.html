@@ -6,18 +6,33 @@
     <title>Vending Machines: An Analysis</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&display=swap');
         
         :root {
             --primary: #3a86ff;
             --primary-dark: #2667cc;
+            --primary-light: #e0ebff;
             --secondary: #ff006e;
+            --secondary-light: #ffe0ed;
             --accent: #8338ec;
+            --accent-light: #f1e6ff;
             --light: #f8f9fa;
             --dark: #212529;
+            --dark-80: rgba(33, 37, 41, 0.8);
+            --dark-60: rgba(33, 37, 41, 0.6);
             --gray: #6c757d;
+            --gray-light: #e9ecef;
             --card-bg: #ffffff;
             --success: #06d6a0;
+            --border-radius-sm: 8px;
+            --border-radius-md: 12px;
+            --border-radius-lg: 20px;
+            --box-shadow-sm: 0 4px 8px rgba(0, 0, 0, 0.04);
+            --box-shadow-md: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --box-shadow-lg: 0 15px 40px rgba(0, 0, 0, 0.1);
+            --transition-fast: 0.2s ease;
+            --transition-medium: 0.3s ease;
+            --transition-slow: 0.5s ease;
         }
         
         * {
@@ -26,25 +41,43 @@
             box-sizing: border-box;
         }
         
+        html {
+            scroll-behavior: smooth;
+        }
+        
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: #f0f2f5;
             color: var(--dark);
             line-height: 1.6;
+            font-size: 16px;
+            overflow-x: hidden;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 30px;
+            position: relative;
         }
         
         header {
             background: linear-gradient(135deg, var(--primary), var(--accent));
             color: white;
-            padding: 80px 0 100px;
+            padding: 100px 0 120px;
             position: relative;
             overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.1;
         }
         
         header::after {
@@ -65,43 +98,51 @@
         }
         
         .vending-icon {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 20px;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 30px;
             background-color: rgba(255, 255, 255, 0.2);
-            border-radius: 16px;
+            border-radius: var(--border-radius-lg);
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--box-shadow-md);
+            transition: transform var(--transition-medium);
+        }
+        
+        .vending-icon:hover {
+            transform: translateY(-5px) scale(1.05);
         }
         
         h1 {
             font-family: 'Montserrat', sans-serif;
-            font-size: 3.5rem;
+            font-size: 3.8rem;
             font-weight: 900;
-            margin-bottom: 15px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             text-transform: uppercase;
             letter-spacing: 1px;
+            line-height: 1.2;
         }
         
         .subtitle {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: 400;
             max-width: 700px;
             margin: 0 auto;
             opacity: 0.9;
+            line-height: 1.6;
         }
         
         .section-title {
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin: 60px 0 30px;
+            font-size: 2.4rem;
+            font-weight: 800;
+            margin: 80px 0 35px;
             text-align: center;
             color: var(--primary-dark);
             position: relative;
-            padding-bottom: 15px;
+            padding-bottom: 18px;
+            font-family: 'Montserrat', sans-serif;
         }
         
         .section-title::after {
@@ -110,53 +151,79 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: var(--accent);
-            border-radius: 2px;
+            width: 100px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 2.5px;
         }
         
         .intro-section {
             background-color: var(--card-bg);
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            padding: 40px;
-            margin-top: -50px;
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--box-shadow-md);
+            padding: 50px;
+            margin-top: -60px;
             position: relative;
             z-index: 3;
-            margin-bottom: 50px;
+            margin-bottom: 60px;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            transition: transform var(--transition-medium), box-shadow var(--transition-medium);
+        }
+        
+        .intro-section:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--box-shadow-lg);
         }
         
         .intro-text {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: var(--dark);
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: var(--dark-80);
+            margin-bottom: 1.5rem;
+        }
+        
+        .intro-text:last-child {
+            margin-bottom: 0;
+        }
+        
+        ul.intro-text {
+            padding-left: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        ul.intro-text li {
+            margin-bottom: 0.75rem;
+        }
+        
+        ul.intro-text li:last-child {
+            margin-bottom: 0;
         }
         
         .survey-container {
             position: relative;
             z-index: 3;
-            padding-bottom: 60px;
+            padding-bottom: 80px;
         }
         
         .question-card {
             background-color: var(--card-bg);
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--box-shadow-sm);
             overflow: hidden;
-            margin-bottom: 30px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 35px;
+            transition: transform var(--transition-medium), box-shadow var(--transition-medium);
+            border: 1px solid rgba(0, 0, 0, 0.03);
         }
         
         .question-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transform: translateY(-6px);
+            box-shadow: var(--box-shadow-md);
         }
         
         .question-header {
-            padding: 25px 30px;
+            padding: 28px 35px;
             background: white;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid var(--gray-light);
             display: flex;
             align-items: flex-start;
         }
@@ -165,33 +232,36 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            min-width: 36px;
-            height: 36px;
-            background-color: var(--primary);
+            min-width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
             border-radius: 50%;
-            font-weight: 600;
-            font-size: 1rem;
-            margin-right: 15px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-right: 20px;
             flex-shrink: 0;
+            box-shadow: 0 4px 8px rgba(58, 134, 255, 0.3);
         }
         
         .question-text {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             font-weight: 600;
             color: var(--dark);
             flex-grow: 1;
+            line-height: 1.5;
         }
         
         .answer-container {
-            padding: 25px 30px;
+            padding: 28px 35px;
             background-color: var(--light);
+            border-top: 3px solid var(--primary-light);
         }
         
         .answer-text {
-            font-size: 1.05rem;
-            color: var(--dark);
-            line-height: 1.7;
+            font-size: 1.1rem;
+            color: var(--dark-80);
+            line-height: 1.8;
         }
         
         .highlight {
@@ -200,48 +270,97 @@
         }
         
         .stat-box {
-            display: inline-block;
-            background-color: rgba(58, 134, 255, 0.1);
-            color: var(--primary-dark);
-            font-weight: 600;
-            padding: 3px 10px;
-            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 28px;
+            min-width: 28px;
+            padding: 0 12px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            font-weight: 700;
+            border-radius: 14px;
             margin: 0 3px;
+            box-shadow: 0 2px 6px rgba(58, 134, 255, 0.2);
+        }
+        
+        .image-container {
+            margin: 40px 0;
+            text-align: center;
+        }
+        
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--border-radius-sm);
+            box-shadow: var(--box-shadow-md);
+            transition: transform var(--transition-medium), box-shadow var(--transition-medium);
+        }
+        
+        .image-container img:hover {
+            transform: scale(1.01);
+            box-shadow: var(--box-shadow-lg);
+        }
+        
+        .image-container p {
+            margin-top: 15px;
+            font-size: 1rem;
+            color: var(--dark-60);
         }
         
         footer {
-            background-color: var(--dark);
+            background: linear-gradient(135deg, var(--dark), #000);
             color: white;
             text-align: center;
-            padding: 40px 0;
+            padding: 60px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.1;
         }
         
         .footer-content {
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
         
         .footer-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 15px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+            font-family: 'Montserrat', sans-serif;
         }
         
         .footer-text {
-            opacity: 0.8;
-            margin-bottom: 25px;
+            opacity: 0.85;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.7;
         }
         
         .footer-copyright {
             opacity: 0.6;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            margin-top: 20px;
+            letter-spacing: 0.5px;
         }
         
         /* Animation for cards */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -250,7 +369,7 @@
         }
         
         .question-card {
-            animation: fadeInUp 0.6s ease forwards;
+            animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
             opacity: 0;
         }
         
@@ -262,22 +381,155 @@
         .question-card:nth-child(6) { animation-delay: 0.6s; }
         .question-card:nth-child(7) { animation-delay: 0.7s; }
         
+        /* Storyboard specific styling */
+        .storyboard-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+        }
+        
+        .storyboard-item {
+            width: 100%;
+            max-width: 900px;
+            text-align: center;
+            padding: 20px;
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--box-shadow-sm);
+            transition: transform var(--transition-medium), box-shadow var(--transition-medium);
+        }
+        
+        .storyboard-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--box-shadow-md);
+        }
+        
+        .storyboard-item img {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            max-height: 600px;
+            object-fit: contain;
+            border-radius: var(--border-radius-sm);
+            margin-bottom: 15px;
+        }
+        
+        .storyboard-item p {
+            font-size: 1.1rem;
+            color: var(--dark-80);
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 10px auto 0;
+        }
+        
         /* Responsive design */
-        @media (max-width: 768px) {
+        @media (max-width: 1200px) {
+            .container {
+                padding: 0 40px;
+            }
+            
             h1 {
-                font-size: 2.5rem;
+                font-size: 3.2rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .intro-section {
+                padding: 40px;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            h1 {
+                font-size: 2.8rem;
+            }
+            
+            .intro-text {
+                font-size: 1.1rem;
             }
             
             .question-header, .answer-container {
-                padding: 20px;
+                padding: 25px 30px;
+            }
+            
+            .image-container {
+                margin-left: 0 !important;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.4rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+                margin: 60px 0 30px;
+            }
+            
+            .question-header, .answer-container {
+                padding: 20px 25px;
             }
             
             .question-text {
                 font-size: 1.1rem;
             }
             
+            .question-number {
+                min-width: 36px;
+                height: 36px;
+                margin-right: 15px;
+            }
+            
+            .answer-text {
+                font-size: 1rem;
+            }
+            
+            .intro-section {
+                padding: 30px;
+            }
+            
+            .vending-icon {
+                width: 80px;
+                height: 80px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .container {
+                padding: 0 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .intro-text {
+                font-size: 1rem;
+                line-height: 1.7;
+            }
+            
+            header {
+                padding: 70px 0 90px;
+            }
+            
             .section-title {
-                font-size: 1.8rem;
+                font-size: 1.6rem;
+            }
+            
+            .footer-title {
+                font-size: 1.5rem;
+            }
+            
+            .storyboard-item {
+                padding: 15px;
             }
         }
     </style>
@@ -287,7 +539,7 @@
         <div class="container">
             <div class="header-content">
                 <div class="vending-icon">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="45" height="45" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
                         <path d="M6 6h.01M6 10h.01M6 14h.01M6 18h.01"></path>
                         <rect x="8" y="6" width="8" height="3"></rect>
@@ -311,7 +563,7 @@
                 What began as a child's wonder has evolved into a true study of user experience design. This website explores the fascinating intersection of technology, design, and human behavior that vending machines represent. 
             </p>
             
-            <p class="intro-text" style="margin-top: 30px;">
+            <p class="intro-text">
                 Our research involved three participants with varying levels of experience using vending machines. The following section presents their responses to our questions, highlighting common patterns and unique perspectives on vending machine usability.
             </p>
         </div>
@@ -324,8 +576,8 @@
         </div>
         
         <div class="image-container">
-            <img src="image1.jpg" alt="Vending machine at SciLi" class="study-image" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
-            <p style="text-align: center; margin-top: 10px;"><i>Figure 1: The vending machine I observed and conducted my case study at</i></p>
+            <img src="image1.jpg" alt="Vending machine at SciLi" class="study-image">
+            <p><i>Figure 1: The vending machine in SciLi where I conducted my case study</i></p>
         </div>
         
         <!-- Initial Observations Section -->
@@ -342,7 +594,7 @@
         </div>
         <!-- Q&A Section -->
         <h2 class="section-title">Q&A</h2>
-        <p class="intro-text" style="text-align: center; font-style: italic;">Below are the 7 questions I asked each interviewee. Responses have been edited for concision and clarity.</p>
+        <p class="intro-text" style="text-align: center; font-style: italic; margin-bottom: 40px;">Below are the 7 questions I asked each interviewee. Responses have been edited for concision and clarity.</p>
         
         <div class="survey-container">
             <div class="question-card">
@@ -418,67 +670,62 @@
     </div>
     
     <div class="container">
-        <div class="section-title">
-            <h2>Annotated Sketch</h2>
-        </div>
+        <h2 class="section-title">Annotated Sketch</h2>
         <div class="image-container" style="margin-left: 120px;">
             <img src="image2.png" alt="Annotated Sketch of Vending Machine" class="full-width-image">
         </div>
     </div>
 
     <div class="container">
-        <div class="section-title">
-            <h2>Personas</h2>
-        </div>
+        <h2 class="section-title">Personas</h2>
         <div class="intro-section">
             <p class="intro-text">To better understand the diverse users of vending machines and their unique needs, I developed personas based on my research findings. These personas help illustrate the different motivations, behaviors, and pain points of typical vending machine users. By creating these representative user profiles, we can better design and improve vending machine interfaces to meet the needs of various user groups, from busy office workers in need of a quick snack to food science students looking for a healthy snack.</p>
         </div>
         <div class="image-container">
             <img src="empathymap1.png" alt="Persona 1: Student Vending Machine User" class="full-width-image">
-            <img src="empathymap2.png" alt="Persona 2: Office Worker Vending Machine User" class="full-width-image">
+            <img src="empathymap2.png" alt="Persona 2: Office Worker Vending Machine User" class="full-width-image" style="margin-top: 40px;">
         </div>
     </div>
 
     <div class="container">
-        <div class="section-title">
-            <h2>Storyboard</h2>
-        </div>
+        <h2 class="section-title">Storyboard</h2>
         <div class="intro-section">
             <p class="intro-text">Storyboards are essential tools in user experience design that help visualize the complete journey of user interaction. By breaking down the vending machine usage process into sequential steps, we can better understand user behaviors, pain points, and opportunities for improvement. These visual narratives allow us to empathize with users and identify potential usability issues before they become problems in the real world. Below is a storyboard for the vending machine I observed.</p>
         </div>
-        <div class="image-container" style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
-            <div style="text-align: center;">
-                <img src="IMG_0164.jpg" alt="Figure 1: User Approaching Vending Machine" style="width: 800px; height: 600px; object-fit: contain;">
+        
+        <div class="storyboard-container">
+            <div class="storyboard-item">
+                <img src="IMG_0164.jpg" alt="Figure 1: User Approaching Vending Machine">
                 <p class="answer-text">Figure 1: Harry realizes he is hungry and only has a few minutes to eat lunch. Harry is in a busy office space right now and there is a clock around him.</p>
             </div>
             
-            <div style="text-align: center;">
-                <img src="IMG_0165.jpg" alt="Figure 2: Browsing Selection" style="width: 800px; height: 600px; object-fit: contain;">
+            <div class="storyboard-item">
+                <img src="IMG_0165.jpg" alt="Figure 2: Browsing Selection">
                 <p class="answer-text">Figure 2: Harry approaches the vending machine and looks at all the options.</p>
             </div>
             
-            <div style="text-align: center;">
-                <img src="IMG_0166.jpg" alt="Figure 3: Payment Process" style="width: 800px; height: 600px; object-fit: contain;">
+            <div class="storyboard-item">
+                <img src="IMG_0166.jpg" alt="Figure 3: Payment Process">
                 <p class="answer-text">Figure 3: Harry tries to insert a dollar but the machine is being slow. It won't accept his dollar.</p>
             </div>
             
-            <div style="text-align: center;">
-                <img src="IMG_0167.jpg" alt="Figure 4: Alternative Payment" style="width: 800px; height: 600px; object-fit: contain;">
+            <div class="storyboard-item">
+                <img src="IMG_0167.jpg" alt="Figure 4: Alternative Payment">
                 <p class="answer-text">Figure 4: The dollar is finally inserted, but Harry is frustrated with how long it is taking. He bangs on the machine</p>
             </div>
             
-            <div style="text-align: center;">
-                <img src="IMG_0168.jpg" alt="Figure 5: Drink Selection" style="width: 800px; height: 600px; object-fit: contain;">
+            <div class="storyboard-item">
+                <img src="IMG_0168.jpg" alt="Figure 5: Drink Selection">
                 <p class="answer-text">Figure 5: Harry selects the chips button on the machine, and impatiently watches as the machine starts to move.</p>
             </div>
             
-            <div style="text-align: center;">
-                <img src="IMG_0169.jpg" alt="Figure 6: Drink Dispensing" style="width: 800px; height: 600px; object-fit: contain;">
+            <div class="storyboard-item">
+                <img src="IMG_0169.jpg" alt="Figure 6: Drink Dispensing">
                 <p class="answer-text">Figure 6: Harry finally bends over and gets his snack, leaving the change in the machine because he is running late.</p>
             </div>
             
-            <div style="text-align: center;">
-                <img src="IMG_0171.jpg" alt="Figure 7: Completion" style="width: 800px; height: 600px; object-fit: contain;">
+            <div class="storyboard-item">
+                <img src="IMG_0171.jpg" alt="Figure 7: Completion">
                 <p class="answer-text">Figure 7: Harry runs back to the office with this snack, eating while he is running.</p>
             </div>
         </div>
